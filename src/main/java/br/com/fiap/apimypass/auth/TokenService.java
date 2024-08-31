@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,9 @@ import br.com.fiap.apimypass.user.UserRepository;
 @Service
 public class TokenService {
 
-    private final UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
     Algorithm algorithm = Algorithm.HMAC256("assinatura");
-
-    public TokenService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public Token create(Credentials credentials) {
         var expiresAt = LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.ofHours(-3));

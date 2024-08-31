@@ -1,5 +1,6 @@
 package br.com.fiap.apimypass.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -8,15 +9,14 @@ import br.com.fiap.apimypass.user.UserRepository;
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
+    @Autowired
+    UserRepository userRepository;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.tokenService = tokenService;
-    }
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    TokenService tokenService;
 
     public Token login(Credentials credentials) {
         var user = userRepository.findByUsername(credentials.username())
